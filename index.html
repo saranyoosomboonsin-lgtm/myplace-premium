@@ -12,13 +12,13 @@
 @media (prefers-color-scheme:light){:root:not([data-theme="dark"]){color-scheme:light;--bg:#f3f1ec;--card:#fff;--card2:#ebe8e1;--tx:#171717;--mut:rgba(0,0,0,.55);--ln:rgba(0,0,0,.14);--nav:rgba(255,255,255,.82)}}
 :root[data-theme="light"]{color-scheme:light;--bg:#f3f1ec;--card:#fff;--card2:#ebe8e1;--tx:#171717;--mut:rgba(0,0,0,.55);--ln:rgba(0,0,0,.14);--nav:rgba(255,255,255,.82)}
 :root[data-theme="dark"]{color-scheme:dark}
-html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%;background:var(--bg)}
 *,*:before,*:after{box-sizing:inherit;-webkit-tap-highlight-color:transparent}
 body{margin:0;height:100%;background:var(--bg);color:var(--tx);font-family:'Plus Jakarta Sans','Noto Sans Thai',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0;text-align:left}
 input,textarea{font:inherit;font-size:16px;color:var(--tx);background:none;border:0;outline:0;width:100%;padding:0}
 textarea{resize:none}
-.app{max-width:430px;height:100%;margin:0 auto;position:relative;overflow:hidden}
+.app{position:fixed;left:0;right:0;top:0;bottom:0;max-width:430px;margin:0 auto;overflow:hidden}
 .scr{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:calc(22px + env(safe-area-inset-top,0px)) 20px calc(var(--nh) + 36px);display:none;scrollbar-width:none}
 .scr::-webkit-scrollbar{display:none}
 .scr.on{display:block;animation:in .6s var(--ease) both}
