@@ -8,7 +8,7 @@
 <title>MyPlace</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--acc:#ffd93d;--ink:#111;--ease:cubic-bezier(.22,1,.36,1);--bg:#101010;--card:#1b1b1a;--card2:#272725;--tx:#fff;--mut:rgba(255,255,255,.58);--ln:rgba(255,255,255,.18);--nav:rgba(24,24,22,.78)}
+:root{color-scheme:dark;box-sizing:border-box;--nb:max(10px,calc(env(safe-area-inset-bottom,0px) - 6px));--acc:#ffd93d;--ink:#111;--ease:cubic-bezier(.22,1,.36,1);--bg:#101010;--card:#1b1b1a;--card2:#272725;--tx:#fff;--mut:rgba(255,255,255,.58);--ln:rgba(255,255,255,.18);--nav:rgba(24,24,22,.78)}
 @media (prefers-color-scheme:light){:root:not([data-theme="dark"]){color-scheme:light;--bg:#f3f1ec;--card:#fff;--card2:#ebe8e1;--tx:#171717;--mut:rgba(0,0,0,.55);--ln:rgba(0,0,0,.14);--nav:rgba(255,255,255,.82)}}
 :root[data-theme="light"]{color-scheme:light;--bg:#f3f1ec;--card:#fff;--card2:#ebe8e1;--tx:#171717;--mut:rgba(0,0,0,.55);--ln:rgba(0,0,0,.14);--nav:rgba(255,255,255,.82)}
 :root[data-theme="dark"]{color-scheme:dark}
@@ -19,11 +19,11 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;paddin
 input,textarea{font:inherit;font-size:16px;color:var(--tx);background:none;border:0;outline:0;width:100%;padding:0}
 textarea{resize:none}
 .app{max-width:430px;height:100%;margin:0 auto;position:relative;overflow:hidden}
-.scr{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:22px 20px 130px;display:none;scrollbar-width:none}
+.scr{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:calc(22px + env(safe-area-inset-top,0px)) 20px calc(var(--nb) + 118px);display:none;scrollbar-width:none}
 .scr::-webkit-scrollbar{display:none}
 .scr.on{display:block;animation:in .6s var(--ease) both}
 @keyframes in{from{opacity:0;transform:translateY(14px)}}
-.glow{position:absolute;left:0;right:0;top:calc(-1*env(safe-area-inset-top,0px));height:420px;pointer-events:none;background:radial-gradient(ellipse 80% 55% at 30% 0,hsla(var(--gh,32),95%,56%,.55),transparent 72%),radial-gradient(ellipse 50% 40% at 95% 12%,hsla(calc(var(--gh,32) + 50),70%,50%,.28),transparent 72%);-webkit-mask-image:linear-gradient(#000 50%,transparent);mask-image:linear-gradient(#000 50%,transparent);transition:background 1s;animation:dr 16s ease-in-out infinite alternate}
+.glow{position:absolute;left:0;right:0;top:0;height:420px;pointer-events:none;background:radial-gradient(ellipse 80% 55% at 30% 0,hsla(var(--gh,32),95%,56%,.55),transparent 72%),radial-gradient(ellipse 50% 40% at 95% 12%,hsla(calc(var(--gh,32) + 50),70%,50%,.28),transparent 72%);-webkit-mask-image:linear-gradient(#000 50%,transparent);mask-image:linear-gradient(#000 50%,transparent);transition:background 1s;animation:dr 16s ease-in-out infinite alternate}
 @keyframes dr{to{transform:translateX(-14px) scale(1.05)}}
 .hd{position:relative;margin-bottom:18px}
 .hd small{color:var(--mut);font-size:13px;font-weight:500}
@@ -73,11 +73,11 @@ h1{margin:4px 0 0;font-size:34px;line-height:1.15;letter-spacing:-1px;font-weigh
 .btn{display:block;width:100%;text-align:center;padding:14px;border-radius:16px;background:var(--tx);color:var(--bg);font-weight:700;font-size:14px;margin-top:6px;transition:transform .4s var(--ease)}
 .btn:active{transform:scale(.97)}.btn.g{background:var(--card2);color:var(--tx)}
 .note{font-size:12px;color:var(--mut);line-height:1.55;margin-top:8px}
-.fab{position:absolute;right:20px;bottom:calc(104px + env(safe-area-inset-bottom,0px));width:60px;height:60px;border-radius:50%;background:var(--acc);color:var(--ink);display:grid;place-items:center;padding:0;line-height:0;box-shadow:0 16px 30px -8px rgba(255,200,40,.5),0 6px 14px rgba(0,0,0,.4);z-index:6;transition:transform .5s var(--ease),opacity .4s}
+.fab{position:absolute;right:20px;bottom:calc(var(--nb) + 92px);width:60px;height:60px;border-radius:50%;background:var(--acc);color:var(--ink);display:grid;place-items:center;padding:0;line-height:0;box-shadow:0 16px 30px -8px rgba(255,200,40,.5),0 6px 14px rgba(0,0,0,.4);z-index:6;transition:transform .5s var(--ease),opacity .4s}
 .fab:active{transform:scale(.88)}
 .go{padding:0;line-height:0}.go svg,.fab svg{display:block}
 .dtl .fab{opacity:0;pointer-events:none;transform:scale(.6)}
-.nav{position:absolute;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;gap:6px;padding:7px;border-radius:34px;background:var(--nav);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid var(--ln);z-index:25}
+.nav{position:absolute;left:12px;right:12px;bottom:var(--nb);display:flex;gap:6px;padding:7px;border-radius:34px;background:var(--nav);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid var(--ln);z-index:25}
 .nt{flex:1;height:62px;border-radius:30px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:500;color:var(--mut);transition:all .6s var(--ease)}
 .nt svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .nt.on{flex:1.5;background:var(--tx);color:var(--bg);font-weight:700;text-align:center}
@@ -88,7 +88,7 @@ h1{margin:4px 0 0;font-size:34px;line-height:1.15;letter-spacing:-1px;font-weigh
 .cb{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);left:16px;width:42px;height:42px;border-radius:50%;background:rgba(0,0,0,.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:grid;place-items:center;color:#fff;font-size:26px;line-height:1;z-index:2}
 .cb.r{left:auto;right:16px;font-size:20px;transition:transform .4s var(--ease)}
 .cb.r.f{color:#ff5a6e}.cb.r:active{transform:scale(1.25)}
-.bd{padding:0 20px 150px;margin-top:-34px;position:relative;z-index:1}
+.bd{padding:0 20px calc(var(--nb) + 120px);margin-top:-34px;position:relative;z-index:1}
 .ti{font-size:30px;font-weight:700;letter-spacing:-.8px;margin-bottom:6px}
 .bd h3{margin:26px 0 10px;font-size:15px;font-weight:700}
 .md{display:flex;gap:8px}
