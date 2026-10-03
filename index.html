@@ -190,7 +190,7 @@ function seg(k,cur,arr){return'<div class="sg">'+arr.map(function(a){return'<but
 function rSet(){var cfg=LS.g('mp_cfg',''),em=LS.g('mp_em','');$('s-set').innerHTML='<div class="hd" style="margin-top:6px"><h1>'+t('setT')+'</h1></div>'+
 '<div class="set"><h3>'+t('lang')+'</h3>'+seg('lang',lang,[['th','ไทย'],['en','English']])+'</div>'+
 '<div class="set"><h3>'+t('theme')+'</h3>'+seg('theme',theme,[['auto',t('auto')],['dark',t('dark')],['light',t('light')]])+'</div>'+
-'<div class="set"><h3>'+t('sync')+'</h3><textarea class="in2" id="cfg" rows="3" placeholder=\''+t('cfgPh')+'\'>'+esc(cfg)+'</textarea><input class="in2" id="em" type="email" placeholder="'+t('email')+'" value="'+esc(em)+'" autocomplete="email"><input class="in2" id="pw" type="password" placeholder="'+t('pw')+'" autocomplete="current-password"><button class="btn" data-a="login">'+t('login')+'</button><button class="btn g" data-a="create">'+t('create')+'</button><button class="btn g" data-a="out">'+t('out')+'</button><div class="note" id="sy">'+(window.fbOn?'● '+esc(em):'')+'</div><div class="note">'+t('syncNote')+'</div></div>'+
+'<div class="set"><h3>'+t('sync')+'</h3><input class="in2" id="em" type="email" placeholder="'+t('email')+'" value="'+esc(em)+'" autocomplete="email"><input class="in2" id="pw" type="password" placeholder="'+t('pw')+'" autocomplete="current-password"><button class="btn" data-a="login">'+t('login')+'</button><button class="btn g" data-a="create">'+t('create')+'</button><button class="btn g" data-a="out">'+t('out')+'</button><div class="note" id="sy">'+(window.fbOn?'● '+esc(em):'')+'</div><div class="note">'+t('syncNote')+'</div></div>'+
 '<div class="set"><h3>'+t('data')+'</h3><button class="btn g" data-a="copy">'+t('copy')+'</button>'+(P.some(function(p){return p.s})?'<button class="btn g" data-a="clr">'+t('clr')+'</button>':'')+'</div>'}
 var NAV=[['now','tNow','<path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/>'],['search','tSearch','<circle cx="11" cy="11" r="6.500"/><path d="M16 16l4 4"/>'],['fav','tFav','<path d="M12 20s-7-4.500-8.500-9A4.500 4.500 0 0 1 12 7a4.500 4.500 0 0 1 8.500 4C19 15.500 12 20 12 20z"/>'],['set','tSet','<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.600 5.600l2.100 2.100M16.300 16.300l2.100 2.100M5.600 18.400l2.100-2.100M16.300 7.700l2.100-2.100"/>']];
 function render(){$('nav').innerHTML=NAV.map(function(n){return'<button class="nt'+(tab===n[0]?' on':'')+'" data-a="tab" data-v="'+n[0]+'"><svg viewBox="0 0 24 24">'+n[2]+'</svg>'+t(n[1])+'</button>'}).join('');
@@ -242,6 +242,7 @@ document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;var id
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&!cur)render()});
 setInterval(function(){var a=document.activeElement;if(!cur&&(!a||a.tagName!=='INPUT'&&a.tagName!=='TEXTAREA'))render()},60000);
 /* Firebase sync (works when this file is hosted on your own domain, e.g. Firebase Hosting) */
+var DEFCFG={apiKey:"AIzaSyBL1rF82uhfA1YjuJd280G_Frtm9Y3oPZ0",authDomain:"myplace-premium.firebaseapp.com",projectId:"myplace-premium",storageBucket:"myplace-premium.firebasestorage.app",messagingSenderId:"448837192021",appId:"1:448837192021:web:9f6ad1f7db1ebe7adec7dc"};
 var fbU=null,fbUn=null,fbCol=null,first=true;window.fbOn=false;
 function sy(m){var e=$('sy');if(e)e.textContent=m}
 function ld(s){return new Promise(function(r,j){var x=document.createElement('script');x.src=s;x.onload=r;x.onerror=j;document.head.appendChild(x)})}
@@ -254,10 +255,10 @@ function fbStart(u){window.fbOn=true;first=true;fbCol=firebase.firestore().colle
 fbUn=fbCol.onSnapshot(function(s){var ch=false;if(first){first=false;var ids={};s.forEach(function(d){ids[d.id]=d.data()});Object.keys(ids).forEach(function(id){var r=ids[id],l=P.find(function(x){return x.id===id});if(!l){P.push(r);ch=true}else if((r.u||0)>(l.u||0)){Object.assign(l,r);ch=true}});P.forEach(function(l){if(!ids[l.id]||(l.u||0)>(ids[l.id].u||0))fbPush(l)})}
 else s.docChanges().forEach(function(c){var r=c.doc.data(),i=P.findIndex(function(x){return x.id===c.doc.id});if(c.type==='removed'){if(i>-1){P.splice(i,1);ch=true}}else if(i<0){P.push(r);ch=true}else if((r.u||0)>(P[i].u||0)){P[i]=r;ch=true}});
 if(ch){LS.s('mp_p',P);if(!cur)render()}},function(err){sy(err.message)})}
-async function syncIn(create){try{var cfg=$('cfg').value.trim(),em=$('em').value.trim(),pw=$('pw').value;sy('…');var c=pcfg(cfg);LS.s('mp_cfg',JSON.stringify(c));LS.s('mp_em',em);await fbBoot(c);var a=firebase.auth();if(create)await a.createUserWithEmailAndPassword(em,pw);else await a.signInWithEmailAndPassword(em,pw);fbStart(a.currentUser);sy('● '+em)}catch(e){sy((e&&e.message)||'error')}}
+async function syncIn(create){try{var em=$('em').value.trim(),pw=$('pw').value;sy('…');var c=DEFCFG;LS.s('mp_cfg',JSON.stringify(c));LS.s('mp_em',em);await fbBoot(c);var a=firebase.auth();if(create)await a.createUserWithEmailAndPassword(em,pw);else await a.signInWithEmailAndPassword(em,pw);fbStart(a.currentUser);sy('● '+em)}catch(e){sy((e&&e.message)||'error')}}
 function pcfg(s){try{return JSON.parse(s)}catch(e){}var m=s.match(/\{[\s\S]*\}/);if(!m)throw new Error('firebaseConfig?');var j=m[0].replace(/([{,]\s*)([A-Za-z_]\w*)\s*:/g,'$1"$2":').replace(/,\s*\}/g,'}');return JSON.parse(j)}
 function syncOut(){try{if(fbUn)fbUn();fbCol=null;window.fbOn=false;if(window.firebase)firebase.auth().signOut();sy('')}catch(e){}}
-(async function(){var cfg=LS.g('mp_cfg','');if(!cfg)return;try{await fbBoot(JSON.parse(cfg));firebase.auth().onAuthStateChanged(function(u){if(u)fbStart(u)})}catch(e){}})();
+(async function(){try{await fbBoot(DEFCFG);firebase.auth().onAuthStateChanged(function(u){if(u)fbStart(u)})}catch(e){}})();
 render();
 </script>
 </body>
